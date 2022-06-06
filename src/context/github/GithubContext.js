@@ -15,6 +15,7 @@ export const GithubProvider = ({ children }) => {
   // useReducer hook //
   const [state, dispatch] = useReducer(githubReducer, initialState);
 
+  // get initial users //
   const fetchUsers = async () => {
     setLoading();
     const response = await fetch(`${GITHUB_URL}/users`, {
