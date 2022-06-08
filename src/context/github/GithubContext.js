@@ -10,6 +10,7 @@ export const GithubProvider = ({ children }) => {
   const initialState = {
     users: [],
     user: {},
+    repos: [],
     loading: false,
   };
 
@@ -28,6 +29,13 @@ export const GithubProvider = ({ children }) => {
       headers: {
         Authorization: `token ${GITHUB_TOKEN}`,
       },
+    });
+
+    const { items } = await response.json();
+
+    dispatch({
+      type: "GET_USERS",
+      payload: items,
     });
   };
 
@@ -65,6 +73,7 @@ export const GithubProvider = ({ children }) => {
         users: state.users,
         loading: state.loading,
         user: state.user,
+        repos: state.repos,
         searchUsers,
         clearUsers,
         getUser,
