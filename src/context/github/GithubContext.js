@@ -29,33 +29,27 @@ export const GithubProvider = ({ children }) => {
         Authorization: `token ${GITHUB_TOKEN}`,
       },
     });
+  };
 
-    // get single user //
-    const getUser = async (login) => {
-      setLoading();
+  // get single user //
+  const getUser = async (login) => {
+    setLoading();
 
-      const response = await fetch(`${GITHUB_URL}/users/${login}`, {
-        headers: {
-          Authorization: `token ${GITHUB_TOKEN}`,
-        },
+    const response = await fetch(`${GITHUB_URL}/users/${login}`, {
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+      },
+    });
+
+    if (response.status === 404) {
+      window.location = "/notfound";
+    } else {
+      const { data } = await response.json();
+      dispatch({
+        type: "GET_USER",
+        payload: data,
       });
-
-      if (response.status === 404) {
-        window.location = "/notfound";
-      } else {
-        const { data } = await response.json();
-        dispatch({
-          type: "GET_USER",
-          payload: data,
-        });
-      }
-    };
-
-    // const { items } = await response.json();
-    // dispatch({
-    //   type: "GET_USERS",
-    //   payload: data, // items object from the API //
-    // });
+    }
   };
 
   // clear users from state //
